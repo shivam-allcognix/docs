@@ -18,7 +18,7 @@ It abstracts multiple AI providers behind one consistent interface, handles cost
   </Step>
 
   <Step title="Unified Request Format">
-    You send a generation request to a single endpoint (<code>/v1/mmk-generate</code>) regardless of the model type.
+    You send a generation request to a single endpoint ```/v1/mmk-generate``` regardless of the model type.
   </Step>
 
   <Step title="Query Processing">
@@ -63,7 +63,7 @@ This lets developers experiment visually before integrating anything into their 
 
 Model Market offers one consistent API endpoint:
 
-```bash
+```
 POST /v1/mmk-generate
 ```
 This endpoint intelligently handles all model types using a flexible schema.
@@ -132,9 +132,9 @@ Generate high-quality TTS audio or voiceovers for videos, tutorials, or applicat
 Use Model Market as the backend for your own code, convert languages, or generate scripts, content. For applications like AI video generators, AI chatbots, AI image editors, Script generators, Media editing tools.
 
 #### Benefits:
-- Multiple code LLMs
-- Standardized response format
-- Good for automation tools or IDE integrations
+- No need to manage multiple provider APIs
+- Less overhead
+- Predictable billing
 
 
 
@@ -147,22 +147,22 @@ Use Model Market as the backend for your own code, convert languages, or generat
 
 ```mermaid  theme={null}
 graph TB
-    A[User Query] --> B[API Gateway]
-    B --> C[Authentication]
-    C --> D[Query Processing]
-    D --> E[Vector Search]
-    E --> F[Document Retrieval]
-    F --> G[Context Assembly]
-    G --> H[Response Generation]
-    H --> I[Response Delivery]
-    
-    J[Document Upload] --> K[Document Processing]
-    K --> L[Chunking]
-    L --> M[Embedding Generation]
-    M --> N[Vector Storage]
-    
-    O[Collections] --> P[Document Management]
-    P --> Q[Metadata Storage]
+    A[Frontend / API Client] --> B[API Gateway]
+    B --> C[Auth + API Key Verification]
+    C --> D[Model Router]
+    D --> E[OpenAI Provider]
+    D --> F[Replicate Provider]
+    D --> G[Together AI Provider]
+    D --> H[Internal Models]
+
+    E --> I[Result Formatter]
+    F --> I
+    G --> I
+    H --> I
+
+    I --> J[Response to Client]
+
+    K[Playground Interface] --> B
 ```
 
 ## Getting Started
