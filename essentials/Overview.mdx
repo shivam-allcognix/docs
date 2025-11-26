@@ -150,12 +150,12 @@ graph TB
     A[Frontend / API Client] --> B[API Gateway]
     B --> C[Auth + API Key Verification]
     C --> D[Model Router]
-    D --> E[OpenAI Provider]
-    D --> F[Replicate Provider]
-    D --> G[Together AI Provider]
-    D --> H[Internal Models]
+    D --> E[Provider A]
+    D --> F[or Provider B]
+    D --> G[or Provider C]
+    D --> H[or Provider D]
 
-    E --> I[Result Formatter]
+    E --> I[Result Formatter/LiteLLM processing/Cost calclation/Guardrails]
     F --> I
     G --> I
     H --> I
