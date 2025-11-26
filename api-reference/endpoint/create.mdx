@@ -12,12 +12,151 @@ All generation is done through a single endpoint:
 POST /v1/mmk/generate
 ```
 
-This endpoint handles:
+### Authentication
+Requires API Key authentication. Include your API Key in the Authorization header:
 
-Prompt enhancement
+```bash
+Authorization: Bearer <your-api-key-here>
+```
+### Request
+#### Headers
 
-Retrieval-augmented generation
+| Header          | Type   | Required | Description                    |
+| --------------- | ------ | -------- | ------------------------------ |
+| `Authorization` | string | Yes      | Bearer token with your API key |
+| `Content-Type`  | string | Yes      | Must be `application/json`     |
 
-AI responses
+### Request Body
+| Field     | Type   | Required | Description                      |
+| --------- | ------ | -------- | -------------------------------- |
+| 'input'   | dict   | Yes      | The input payload to get result. |
 
-Any future multimodal expansions
+### Example Request
+#### Python Example
+```python
+import requests
+url = "https://modelmarket.allcognix.com/v1/mmk-generate"
+payload = {
+    "model": "minimax/speech-02-hd",
+    "text": "Voice cloning technology that offers voice synthesis."
+}
+headers = {
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json"
+}
+response = requests.post(url, json=payload, headers=headers, timeout=120)
+```
+#### cURL Example
+```bash
+curl -X POST "https://modelmarket.allcognix.com/v1/mmk-generate" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "model": "minimax/speech-02-hd",
+        "input": "Voice cloning technology that offers voice synthesis"
+      }'
+```
+
+## Response
+
+### Success Response
+
+**Status Code:** `200 OK`
+
+```json  theme={null}
+{
+  "output": {
+    "type": "audio",
+    "urls": [
+      "https://replicate.delivery/xezq/TugNv7N1iZL7AVfEVm2OrUoX8fuOMfwTgi5spd..."
+    ]
+  },
+  "cost": 0.0106,
+  "service": "replicate",
+  "status": "success",
+  "created_at": "2025-11-24T11:13:16.948584Z",
+  "generated_in": "2.5s"
+}
+```
+
+### Response Fields
+
+### Response Fields
+
+| Field              | Type    | Description                                                 |
+| ------------------ | ------- | ----------------------------------------------------------- |
+| `output`           | object  | Contains the generated result.                              |
+| `output.type`      | string  | Type of output generated (`audio`, `image`, `video`, `text`). |
+| `output.urls`      | array   | URL(s) where the generated file(s) can be downloaded.       |
+| `cost`             | number  | Total cost charged for the generation request.              |
+| `service`          | string  | Provider used to run the model (e.g., `replicate`).         |
+| `status`           | string  | Status of the request (`success` or `failed`).              |
+| `created_at`       | string  | Timestamp when the request was processed (ISO 8601).        |
+| `generated_in`     | string  | Total time taken to generate the output.                    |
+
+## Error Responses
+
+### 400 Bad Request
+
+**Missing Required Fields**
+
+```json  theme={null}
+{
+    "detail": "user_id is required"
+}
+```
+
+**Empty Query Message**
+
+```json  theme={null}
+{
+    "detail": "Query message cannot be empty"
+}
+```
+
+### 401 Unauthorized
+
+**Invalid API Key**
+
+```json  theme={null}
+{
+    "detail": "Invalid or expired API key"
+}
+```
+
+### 402 Payment Required
+
+**Cost Limit Exceeded**
+
+```json  theme={null}
+{
+    "detail": {
+        "error": "Cost limit exceeded",
+        "current_cost": 0.50,
+        "cost_limit": 1.00,
+        "remaining_budget": 0.50,
+        "user_role": "free",
+        "message": "Your free plan limit of $1.00 has been reached. Please upgrade your plan to continue."
+    }
+}
+```
+
+### 404 Not Found
+
+**No Active Collection**
+
+```json  theme={null}
+{
+    "detail": "No active collection found for user"
+}
+```
+
+### 500 Internal Server Error
+
+**Server Error**
+
+```json  theme={null}
+{
+    "detail": "Internal server error"
+}
+```
