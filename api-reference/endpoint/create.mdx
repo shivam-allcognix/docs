@@ -102,15 +102,15 @@ curl -X POST "https://modelmarket.allcognix.com/v1/mmk-generate" \
 
 ```json  theme={null}
 {
-    "detail": "user_id is required"
+    "detail": "Input is required"
 }
 ```
 
-**Empty Query Message**
+**Empty Input Payload**
 
 ```json  theme={null}
 {
-    "detail": "Query message cannot be empty"
+    "detail": "Payload can not be empty"
 }
 ```
 
@@ -120,34 +120,17 @@ curl -X POST "https://modelmarket.allcognix.com/v1/mmk-generate" \
 
 ```json  theme={null}
 {
-    "detail": "Invalid or expired API key"
+    "detail": "Missing Authorization header"
 }
 ```
 
 ### 402 Payment Required
 
-**Cost Limit Exceeded**
+**Balance Exhausted**
 
 ```json  theme={null}
 {
-    "detail": {
-        "error": "Cost limit exceeded",
-        "current_cost": 0.50,
-        "cost_limit": 1.00,
-        "remaining_budget": 0.50,
-        "user_role": "free",
-        "message": "Your free plan limit of $1.00 has been reached. Please upgrade your plan to continue."
-    }
-}
-```
-
-### 404 Not Found
-
-**No Active Collection**
-
-```json  theme={null}
-{
-    "detail": "No active collection found for user"
+    "detail": {Insufficient credits. Please recharge.}
 }
 ```
 
