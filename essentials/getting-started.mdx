@@ -4,8 +4,7 @@ description: 'Step-by-step guide to integrating Omni Model Market into your appl
 icon: 'chevrons-left-right-ellipsis'
 ---
 
-
-> Step-by-step guide to integrating RAG Studio into your applications
+Step-by-step guide to integrating RAG Studio into your applications
 
 ## Integration Overview
 
@@ -15,36 +14,30 @@ RAG Studio provides powerful APIs that make it easy to integrate intelligent doc
 
 Before you start integrating RAG Studio, ensure you have:
 
-* **API Key**: Get your API key from the [web interface](https://rag.allcognix.com)
-* **User ID**: A unique identifier for your application's users
+* **API Key**: Create your API key from the [website](https://modelmarket.allcognix.com)
 * **HTTP Client**: Any HTTP client library (requests, fetch, axios, etc.)
-* **Base URL**: `https://rag.allcognix.com`
+* **Base URL**: `https://modelmarket.allcognix.com`
 
-## Integration Steps
+## Steps for integration
 
 <Steps>
   <Step title="Set Up Authentication">
-    Configure your API key and user identification.
+    Login to website, configure your API key and user identification.
+  </Step>
+  <Step title="Model Selection">
+    Visit the explore page of website. Choose from text, vision, audio, video, or code-generation models for your application.
   </Step>
 
-  <Step title="Create Collections">
-    Organize your documents into logical collections.
-  </Step>
-
-  <Step title="Upload Documents">
-    Add your documents to collections for processing.
-  </Step>
-
-  <Step title="Implement Queries">
-    Build RAG queries to retrieve intelligent responses.
+  <Step title="Call the API">
+    Prepare the payload and hit the endpoint to get the expected result in formatted manner.
   </Step>
 
   <Step title="Handle Responses">
-    Process and display query results in your application.
+    Process and use the results to integrate in your application.
   </Step>
 
   <Step title="Monitor and Optimize">
-    Track usage, costs, and performance.
+    Track usage, costs, and performance from the dashboard.
   </Step>
 </Steps>
 
@@ -60,14 +53,8 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-API_KEY = os.getenv('RAG_STUDIO_API_KEY')
-USER_ID = os.getenv('RAG_STUDIO_USER_ID')
-```
-
-```javascript  theme={null}
-// JavaScript/Node.js
-const API_KEY = process.env.RAG_STUDIO_API_KEY;
-const USER_ID = process.env.RAG_STUDIO_USER_ID;
+API_KEY = os.getenv('MODEL_MARKET_API_KEY')
+URL = os.getenv('MODEL_MARKET_URL') or "https://modelmarket.allcognix.com/v1/mmk-generate"
 ```
 
 ### HTTP Client Setup
@@ -82,436 +69,111 @@ headers = {
 }
 ```
 
-```javascript  theme={null}
-// JavaScript with fetch
-const headers = {
-    'Authorization': `Bearer ${API_KEY}`,
-    'Content-Type': 'application/json'
-};
-```
+## Step 2: Model Selection
 
-## Step 2: Create Collections
+You can explore the full list of model on the explore page of the website: [modelmarket.allcognix.com/dashboard/explore](https://modelmarket.allcognix.com/explore):
 
-Organize your documents into logical collections:
+## Step 3: Call the API
+
+You can run any model on Omni Model Market from your Python code. Here’s an example that runs minimax/speech-02-hd to generate an audio from the text:
 
 ```python  theme={null}
-def create_collection(name, description=None):
-    response = requests.post(
-        "https://rag.allcognix.com/api/v1/collections/create",
-        headers=headers,
-        json={
-            "user_id": USER_ID,
-            "name": name,
-            "description": description
-        }
-    )
-    
+def generate():
+    payload = {
+        "model": "minimax/speech-02-hd",
+        "text": "Voice cloning technology that offers voice synthesis, emotional expression, and multilingual capabilities."
+    }
+    headers = {
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json"
+    }
+    response = requests.post(URL, json=payload, headers=headers, timeout=120)
+    output =
     if response.status_code == 200:
-        return response.json()["data"]
+        result = response.json()
+        return result
     else:
         raise Exception(f"Failed to create collection: {response.json()['detail']}")
-
-# Create collections for different content types
-collections = [
-    ("product-docs", "Product documentation and user guides"),
-    ("support-articles", "Customer support articles and FAQs"),
-    ("api-reference", "API documentation and examples")
-]
-
-for name, description in collections:
-    collection = create_collection(name, description)
-    print(f"Created collection: {collection['collection_name']}")
 ```
 
-## Step 3: Upload Documents
+## Step 4: Handling output
 
-Upload documents to your collections:
+Process and use response results effectively. A typical successful response will look like this:
 
 ```python  theme={null}
-def upload_document(file_path, collection_name):
-    # Set active collection
-    requests.post(
-        "https://rag.allcognix.com/api/v1/collections/activate",
-        headers=headers,
-        json={
-            "user_id": USER_ID,
-            "name": collection_name
-        }
-    )
-    
-    # Upload document
-    with open(file_path, 'rb') as file:
-        files = {'files': file}
-        data = {'user_id': USER_ID, 'overwrite': False}
-        
-        response = requests.post(
-            "https://rag.allcognix.com/api/v1/documents/upload",
-            headers={"Authorization": f"Bearer {API_KEY}"},
-            files=files,
-            data=data
-        )
-    
-    if response.status_code == 200:
-        return response.json()["task_id"]
-    else:
-        raise Exception(f"Upload failed: {response.json()['detail']}")
+{
+  "output": {
+    "type": "audio",
+    "urls": [
+      "https://replicate.delivery/xezq/TugNv7N1iZL7AVfEVm2OrUoX8fuOMfwTgi5spd..."
+    ]
+  },
+  "cost": 0.0106,
+  "service": "replicate",
+  "status": "success",
+  "created_at": "2025-11-24T11:13:16.948584Z",
+  "generated_in": "2.5s"
+}
+```
+Some models generate files as output, such as images or audio. These are returned in url fields, which you can easily save or process
 
-# Upload documents to appropriate collections
-document_mappings = [
-    ("user-guide.pdf", "product-docs"),
-    ("faq.pdf", "support-articles"),
-    ("api-docs.pdf", "api-reference")
-]
-
-for file_path, collection in document_mappings:
-    task_id = upload_document(file_path, collection)
-    print(f"Uploaded {file_path} to {collection}, task ID: {task_id}")
+```bash
+import requests
+file_url = result.get("output")["urls"][0]
+with open("test.mp3", "wb") as f:
+  f.write(file_url.content)
+  print("Saved: test.mp3")
 ```
 
-## Step 4: Implement Queries
+## Step 5: Monitor and Optimize
+To keep your usage efficient and cost-effective, follow these best practices:
 
-Build RAG queries to retrieve intelligent responses:
-
-```python  theme={null}
-def query_rag(question, collection_name):
-    # Set active collection
-    requests.post(
-        "https://rag.allcognix.com/api/v1/collections/activate",
-        headers=headers,
-        json={
-            "user_id": USER_ID,
-            "name": collection_name
-        }
-    )
-    
-    # Perform query
-    response = requests.post(
-        "https://rag.allcognix.com/api/v1/chat/query",
-        headers=headers,
-        json={
-            "user_id": USER_ID,
-            "message": question
-        }
-    )
-    
-    if response.status_code == 200:
-        return response.json()["data"]
-    else:
-        raise Exception(f"Query failed: {response.json()['detail']}")
-
-# Example queries
-queries = [
-    ("How do I install the software?", "product-docs"),
-    ("What are the system requirements?", "product-docs"),
-    ("How do I contact support?", "support-articles")
-]
-
-for question, collection in queries:
-    result = query_rag(question, collection)
-    print(f"Q: {question}")
-    print(f"A: {result['context'][:200]}...")
-    print(f"Sources: {[doc['title'] for doc in result['documents']]}")
-    print(f"Cost: ${result['query_cost']:.6f}\n")
-```
-
-## Step 5: Handle Responses
-
-Process and display query results effectively:
-
-```python  theme={null}
-class RAGResponse:
-    def __init__(self, data):
-        self.query = data['user_query']
-        self.context = data['context']
-        self.documents = data['documents']
-        self.cost = data['query_cost']
-        self.collection = data['collection_used']
-    
-    def get_answer(self):
-        """Extract the main answer from context"""
-        return self.context
-    
-    def get_sources(self):
-        """Get source document titles"""
-        return [doc['title'] for doc in self.documents]
-    
-    def get_confidence(self):
-        """Get highest confidence score"""
-        if self.documents:
-            return max([doc['score'] for doc in self.documents])
-        return 0.0
-    
-    def format_response(self):
-        """Format response for display"""
-        confidence = self.get_confidence()
-        sources = self.get_sources()
-        
-        return {
-            "answer": self.get_answer(),
-            "confidence": confidence,
-            "sources": sources,
-            "cost": self.cost,
-            "collection": self.collection
-        }
-
-# Usage
-result = query_rag("How do I reset my password?", "support-articles")
-response = RAGResponse(result)
-formatted = response.format_response()
-
-print(f"Answer: {formatted['answer']}")
-print(f"Confidence: {formatted['confidence']:.2f}")
-print(f"Sources: {', '.join(formatted['sources'])}")
-```
-
-## Step 6: Monitor and Optimize
-
-Track usage, costs, and performance:
-
-```python  theme={null}
-class RAGMonitor:
-    def __init__(self):
-        self.query_count = 0
-        self.total_cost = 0.0
-        self.query_history = []
-    
-    def track_query(self, result):
-        """Track query metrics"""
-        self.query_count += 1
-        self.total_cost += result['query_cost']
-        
-        self.query_history.append({
-            'query': result['user_query'],
-            'cost': result['query_cost'],
-            'confidence': max([doc['score'] for doc in result['documents']]),
-            'sources': len(result['documents'])
-        })
-    
-    def get_stats(self):
-        """Get usage statistics"""
-        return {
-            'total_queries': self.query_count,
-            'total_cost': self.total_cost,
-            'average_cost': self.total_cost / self.query_count if self.query_count > 0 else 0,
-            'average_confidence': sum([q['confidence'] for q in self.query_history]) / len(self.query_history) if self.query_history else 0
-        }
-    
-    def get_cost_alert(self, limit=1.0):
-        """Check if approaching cost limit"""
-        if self.total_cost >= limit * 0.8:
-            return f"Warning: Approaching cost limit. Current: ${self.total_cost:.2f}, Limit: ${limit:.2f}"
-        return None
-
-# Usage
-monitor = RAGMonitor()
-
-# Track queries
-result = query_rag("How do I install the software?", "product-docs")
-monitor.track_query(result)
-
-# Get statistics
-stats = monitor.get_stats()
-print(f"Total queries: {stats['total_queries']}")
-print(f"Total cost: ${stats['total_cost']:.4f}")
-print(f"Average confidence: {stats['average_confidence']:.2f}")
-
-# Check cost alerts
-alert = monitor.get_cost_alert(1.0)
-if alert:
-    print(alert)
-```
+- Track Cost in Each Response: Every call returns a cost field. Store this in your logs or database to monitor usage patterns.
+- Choose the Right Model: Some models are cheaper/faster alternatives. You can browse them on: [https://modelmarket.allcognix.com/explore](https://modelmarket.allcognix.com/explore)
+- Handle Errors Gracefully: A few typical error reasons can be Invalid/missing API key, Timeout, Unsupported model parameters, Provider-side failure.
 
 ## Complete Integration Example
 
 Here's a complete example that demonstrates all integration steps:
 
 ```python  theme={null}
-import requests
-import time
 import os
-from typing import Dict, List
+import requests
+from dotenv import load_dotenv
+# Load environment variables
 
-class RAGStudioIntegration:
-    def __init__(self, api_key: str, user_id: str):
-        self.api_key = api_key
-        self.user_id = user_id
-        self.base_url = "https://rag.allcognix.com"
-        self.headers = {
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
-        }
-        self.monitor = RAGMonitor()
-    
-    def setup_collections(self, collections: List[Dict[str, str]]):
-        """Set up collections for the application"""
-        for collection in collections:
-            response = requests.post(
-                f"{self.base_url}/api/v1/collections/create",
-                headers=self.headers,
-                json={
-                    "user_id": self.user_id,
-                    "name": collection["name"],
-                    "description": collection["description"]
-                }
-            )
-            
-            if response.status_code == 200:
-                print(f"✓ Created collection: {collection['name']}")
-            else:
-                print(f"✗ Failed to create collection: {collection['name']}")
-    
-    def upload_documents(self, document_mappings: List[Dict[str, str]]):
-        """Upload documents to appropriate collections"""
-        for mapping in document_mappings:
-            # Set active collection
-            requests.post(
-                f"{self.base_url}/api/v1/collections/activate",
-                headers=self.headers,
-                json={
-                    "user_id": self.user_id,
-                    "name": mapping["collection"]
-                }
-            )
-            
-            # Upload document
-            with open(mapping["file_path"], 'rb') as file:
-                files = {'files': file}
-                data = {'user_id': self.user_id, 'overwrite': False}
-                
-                response = requests.post(
-                    f"{self.base_url}/api/v1/documents/upload",
-                    headers={"Authorization": f"Bearer {self.api_key}"},
-                    files=files,
-                    data=data
-                )
-            
-            if response.status_code == 200:
-                task_id = response.json()["task_id"]
-                print(f"✓ Uploaded {mapping['file_path']} to {mapping['collection']}")
-            else:
-                print(f"✗ Failed to upload {mapping['file_path']}")
-    
-    def query(self, question: str, collection: str) -> Dict:
-        """Perform a RAG query"""
-        # Set active collection
-        requests.post(
-            f"{self.base_url}/api/v1/collections/activate",
-            headers=self.headers,
-            json={
-                "user_id": self.user_id,
-                "name": collection
-            }
-        )
-        
-        # Perform query
-        response = requests.post(
-            f"{self.base_url}/api/v1/chat/query",
-            headers=self.headers,
-            json={
-                "user_id": self.user_id,
-                "message": question
-            }
-        )
-        
-        if response.status_code == 200:
-            result = response.json()["data"]
-            self.monitor.track_query(result)
-            return result
-        else:
-            raise Exception(f"Query failed: {response.json()['detail']}")
-    
-    def get_stats(self):
-        """Get integration statistics"""
-        return self.monitor.get_stats()
+load_dotenv()
+API_KEY = os.getenv("MODEL_MARKET_API_KEY")
+URL = "https://modelmarket.allcognix.com/v1/mmk-generate"
 
-# Usage
-def main():
-    # Initialize integration
-    rag = RAGStudioIntegration(
-        api_key="your-api-key",
-        user_id="your-user-id"
-    )
-    
-    # Set up collections
-    collections = [
-        {"name": "product-docs", "description": "Product documentation"},
-        {"name": "support-articles", "description": "Customer support articles"}
-    ]
-    rag.setup_collections(collections)
-    
-    # Upload documents
-    document_mappings = [
-        {"file_path": "user-guide.pdf", "collection": "product-docs"},
-        {"file_path": "faq.pdf", "collection": "support-articles"}
-    ]
-    rag.upload_documents(document_mappings)
-    
-    # Perform queries
-    queries = [
-        ("How do I install the software?", "product-docs"),
-        ("What are the system requirements?", "product-docs"),
-        ("How do I contact support?", "support-articles")
-    ]
-    
-    for question, collection in queries:
-        try:
-            result = rag.query(question, collection)
-            print(f"Q: {question}")
-            print(f"A: {result['context'][:200]}...")
-            print(f"Sources: {[doc['title'] for doc in result['documents']]}")
-            print(f"Cost: ${result['query_cost']:.6f}\n")
-        except Exception as e:
-            print(f"Query failed: {e}")
-    
-    # Get statistics
-    stats = rag.get_stats()
-    print(f"Integration Stats:")
-    print(f"Total queries: {stats['total_queries']}")
-    print(f"Total cost: ${stats['total_cost']:.4f}")
-    print(f"Average confidence: {stats['average_confidence']:.2f}")
+headers = {
+"Authorization": f"Bearer {API_KEY}",
+"Content-Type": "application/json"
+}
 
-if __name__ == "__main__":
-    main()
-```
+def generate_audio():
+    payload = {"model": "minimax/speech-02-hd", "text": "Voice cloning technology that offers high-quality synthesis."}
+    response = requests.post(URL, json=payload, headers=headers, timeout=120)
+    response.raise_for_status()
+    data = response.json()
+    print("Status:", data["status"])
+    print("Cost:", data["cost"])
+    print("Provider:", data["service"])
+    # Handle output (audio file)
+    if data["output"]["type"] == "audio":
+        audio_url = data["output"]["urls"][0]
+        download_file(audio_url, "generated_audio.wav")
+    return data
 
-## Best Practices
+def download_file(url, filename):
+  file_data = requests.get(url)
+  with open(filename, "wb") as f:
+    f.write(file_data.content)
+    print(f"Saved file as {filename}")
 
-### Error Handling
-
-```python  theme={null}
-def safe_query(rag, question, collection, max_retries=3):
-    """Query with retry logic"""
-    for attempt in range(max_retries):
-        try:
-            return rag.query(question, collection)
-        except Exception as e:
-            if attempt == max_retries - 1:
-                return {"error": str(e)}
-            time.sleep(2 ** attempt)
-    return {"error": "Max retries exceeded"}
-```
-
-### Cost Management
-
-```python  theme={null}
-def check_cost_limit(monitor, limit=1.0):
-    """Check if approaching cost limit"""
-    if monitor.total_cost >= limit * 0.8:
-        return f"Warning: Approaching cost limit. Current: ${monitor.total_cost:.2f}"
-    return None
-```
-
-### Performance Optimization
-
-```python  theme={null}
-def batch_queries(rag, queries, collection):
-    """Process multiple queries efficiently"""
-    results = []
-    for question in queries:
-        result = rag.query(question, collection)
-        results.append(result)
-        time.sleep(0.1)  # Rate limiting
-    return results
+if name == "main":
+result = generate_audio()
+print("Full result:", result)
 ```
 
 ## Next Steps
