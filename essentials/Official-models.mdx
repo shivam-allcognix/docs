@@ -1,35 +1,34 @@
 ---
-title: 'Code blocks'
-description: 'Display inline code and code blocks'
-icon: 'code'
+title: 'Official models'
+description: 'Learn about official featured models on Omni Model Market'
+icon: 'layout-list'
 ---
 
-## Inline code
+We offer multiple official models that are always available, consistently priced, and come with a stable API.
 
-To denote a `word` or `phrase` as code, enclose it in backticks (`).
+Official models work just like any other model on Omni Model Market, but they include several key advantages:
 
-```
-To denote a `word` or `phrase` as code, enclose it in backticks (`).
-```
+- Always on: These models stay warm and ready to respond instantly, so you never have to worry about cold starts.
+- Stable API: Their input and output formats are fixed, ensuring you can integrate them without fearing breaking changes.
+- Predictable pricing: Instead of being charged based on hardware or run time, official models use straightforward pricing metrics—such as number of images generated, video duration, or input/output tokens.
+- Actively maintained: Omni Model Market manages these models directly with similar providers to ensure high quality and keeping them updated with the latest versions.
 
-## Code blocks
 
-Use [fenced code blocks](https://www.markdownguide.org/extended-syntax/#fenced-code-blocks) by enclosing code in three backticks and follow the leading ticks with the programming language of your snippet to get syntax highlighting. Optionally, you can also write the name of your code after the programming language.
+## API
 
-```java HelloWorld.java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
+Calling official models using Omni Model Market API key, you can opt for python or cURL language.
+
+For example, here’s how you would run minimax/speech-02-hd in python. Notice that the model identifier includes only the owner and model name (minimax/speech-02-hd), with no version required:
+
+```bash
+url = "https://modelmarket.allcognix.com/v1/mmk-generate"
+payload = {
+    "model": "minimax/speech-02-hd",
+    "text": "Voice cloning technology that offers voice synthesis."
 }
-```
-
-````md
-```java HelloWorld.java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
+headers = {
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json"
 }
+response = requests.post(url, json=payload, headers=headers, timeout=120)
 ```
-````
