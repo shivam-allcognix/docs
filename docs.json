@@ -21,10 +21,11 @@
             ]
           },
           {
-            "group": "Customization",
+            "group": "Topics & Concepts",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "essentials/Overview",
+              "essentials/Run-a-model",
+              "essentials/Official models""
             ]
           },
           {
