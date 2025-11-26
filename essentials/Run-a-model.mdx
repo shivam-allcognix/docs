@@ -1,87 +1,44 @@
 ---
-title: 'Navigation'
-description: 'The navigation field in docs.json defines the pages that go in the navigation menu'
-icon: 'map'
+title: 'Run a model'
+  description: 'Learn how to run a machine learning model in a web playground or with an API that uses Omni Model Market.'
+icon: 'sparkle'
 ---
 
-The navigation menu is the list of links on every website.
+You can run models on Omni Model Market using the web application or the API.
 
-You will likely update `docs.json` every time you add a new page. Pages do not show up automatically.
+## Run a model on the web
 
-## Navigation syntax
+Each model on Omni Model Market includes its own playground page—a web-based interface where you can run the model. It’s the best place to experiment when you're testing a model for the first time. The playground shows all the model’s inputs visually and provides an interactive form that lets you execute the model directly in your browser.
 
-Our navigation syntax is recursive which means you can make nested navigation groups. You don't need to include `.mdx` in page names.
+Once you’ve tried out a model in the playground, you can easily run the model from your own code using the API.
 
-<CodeGroup>
+## Run a model with the API
 
-```json Regular Navigation
-"navigation": {
-  "tabs": [
-    {
-      "tab": "Docs",
-      "groups": [
-        {
-          "group": "Getting Started",
-          "pages": ["quickstart"]
-        }
-      ]
-    }
-  ]
-}
+The web playground is perfect for exploring and understanding a model, but when you’re ready to use it in a real application—like a chatbot, website, or mobile app—you’ll need the API.
+
+You can call our HTTP API from python or curl language, to make integration even easier. With this you can generate predictions in just a few lines of code.
+
+cURL
+```bash
+curl -X POST "https://modelmarket.allcognix.com/v1/mmk-generate" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "model": "minimax/speech-02-hd",
+        "input": "Voice cloning technology that offers voice synthesis"
+      }'
 ```
 
-```json Nested Navigation
-"navigation": {
-  "tabs": [
-    {
-      "tab": "Docs",
-      "groups": [
-        {
-          "group": "Getting Started",
-          "pages": [
-            "quickstart",
-            {
-              "group": "Nested Reference Pages",
-              "pages": ["nested-reference-page"]
-            }
-          ]
-        }
-      ]
-    }
-  ]
+Python
+```bash
+url = "https://modelmarket.allcognix.com/v1/mmk-generate"
+payload = {
+    "model": "minimax/speech-02-hd",
+    "text": "Voice cloning technology that offers voice synthesis."
 }
-```
-
-</CodeGroup>
-
-## Folders
-
-Simply put your MDX files in folders and update the paths in `docs.json`.
-
-For example, to have a page at `https://yoursite.com/your-folder/your-page` you would make a folder called `your-folder` containing an MDX file called `your-page.mdx`.
-
-<Warning>
-
-You cannot use `api` for the name of a folder unless you nest it inside another folder. Mintlify uses Next.js which reserves the top-level `api` folder for internal server calls. A folder name such as `api-reference` would be accepted.
-
-</Warning>
-
-```json Navigation With Folder
-"navigation": {
-  "tabs": [
-    {
-      "tab": "Docs",
-      "groups": [
-        {
-          "group": "Group Name",
-          "pages": ["your-folder/your-page"]
-        }
-      ]
-    }
-  ]
+headers = {
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json"
 }
+response = requests.post(url, json=payload, headers=headers, timeout=120)
 ```
-
-## Hidden pages
-
-MDX files not included in `docs.json` will not show up in the sidebar but are accessible through the search bar and by linking directly to them.
