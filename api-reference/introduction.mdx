@@ -8,39 +8,21 @@ description: 'Example section for showcasing API endpoints'
 Welcome to the Omni Model Market api reference documentation.
 The guide allows you to help generate outputs (e.g., enhanced prompts, media, etc.) using a single unified generation endpoint.
 
-<Card
-  title="Our API is designed to be:"
-  icon="leaf"
-  >
-"Hello"
-</Card>
+### Our API is designed to be:
 
-<Card
-  title="Our API is designed to be:"
-  icon="leaf"
-  >
-</Card>
-
-<Card
-  title="Our API is designed to be:"
-  icon="leaf"
-  >
-</Card>
-
-<Card
-  title="Our API is designed to be:"
-  icon="leaf"
-  >
-</Card>
+1. **Simple —** one endpoint handles all generation tasks
+2. **Fast —** optimized inference pipeline
+3. **Secure —** authenticated using API Keys
+4. **Flexible —** supports multiple input types
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+> All requests to the API must include a valid API Key in the Authorization header.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+Getting Your API Key
+1. Create an account on our dashboard
+2. Navigate to API Keys
+3. Click Create API Key
+4. Copy and store it safely (shown only once)
+
+<Warning> <b>Important:</b> API keys are <b>not stored in plain text</b>. You cannot view them again after creation. </Warning>
