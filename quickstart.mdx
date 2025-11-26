@@ -37,43 +37,45 @@ The simplest way to experience Omni Model Market is through our intuitive Web UI
 
 ### Web Interface Features
 
-* **Visual Document Management**: Upload, organize, and manage documents with an intuitive interface
-* **Real-time Chat**: Test your knowledge base with instant Q\&A
-* **Collection Organization**: Group related documents for better context
-* **Usage Analytics**: Track your queries and costs in real-time
-* **API Key Management**: Generate and manage API keys for external integrations
+- **Unified Playground** for all model types  
+- **Model listing** with top models and task based 
+- **Usage & cost tracking**  
+- **API Key management**  
+- **Multi-modal generation** (text, image, video, audio, code)
 
 ## API Integration
 
-For developers who want to integrate RAG Studio into their applications or AI agents.
+For all the developers who want a fully programmable flows to utilise most of it.
 
 <Steps>
-  <Step title="Get Your API Key">
-    Visit our [web interface](https://rag.allcognix.com) to create an account and generate your API key for programmatic access.
+  <Step title="Create Your API Key">
+    Sign in → Profile → API Keys → Create API Key.
   </Step>
 
-  <Step title="Create a Collection">
-    Use our API to create a collection and organize your documents programmatically.
+  <Step title="Send Your First API Request">
+    Use our unified generation endpoint to run any model.
   </Step>
 
-  <Step title="Upload Documents">
-    Upload documents via API and monitor processing status.
+  <Step title="Handle Responses">
+    Each response includes output, model type, cost, and status.
   </Step>
 
-  <Step title="Integrate RAG Queries">
-    Query your knowledge base from your applications and get intelligent responses.
+  <Step title="Monitor your tasks">
+    Frequently visit the web dashboard to observe your usage, cost, time spent, and other fields.
   </Step>
 </Steps>
 
-### Key Concepts for API Integration
+### Key Concepts
 
-**Collections**: Organize your documents into logical groups. Only one collection can be active at a time for uploads and queries.
+**Models List**: Choose the best suitable model as per your requirement and give it a try in the web playground to assess the output as per your input.
 
-**Document Processing**: Uploads are processed asynchronously. You'll receive a task ID to monitor progress.
+**Unified Models API**  
+One endpoint for all models: text, image, video, audio, and code.
 
-**RAG Queries**: Ask natural language questions about your documents. RAG Studio finds relevant content and provides contextual answers.
+**Cost Tracking**  
+Every request returns exact credit usage. Notification system will inform automatically for low balance remainings.
 
-**Cost Tracking**: Monitor your usage costs for embeddings and queries to stay within limits.
+**Payment**: Pay as you go method will help you to quickly decide the needful amount to recharge without worrying to cancel or upgrade. 
 
 <CardGroup cols={2}>
   <Card title="Complete API Reference" icon="book" href="/api-reference/introduction">
@@ -85,60 +87,43 @@ For developers who want to integrate RAG Studio into their applications or AI ag
   </Card>
 </CardGroup>
 
-### Step 1: Create a Collection
+# API Example
+### Endpoint 
 
-Collections help you organize your documents. Think of them as folders that group related content together.
+POST https://modelmarket.allcognix.com/v1/mmk-generate
 
-<Card title="API Reference" icon="book" href="/api-reference/collections/create">
-  See detailed API documentation for creating collections
-</Card>
+```bash
+curl -X POST "https://modelmarket.allcognix.com/v1/mmk-generate" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "model": "minimax/speech-02-hd",
+        "input": "Voice cloning technology that offers voice synthesis"
+      }'
+```
 
-### Step 2: Upload Documents
-
-Upload your documents (PDF, DOCX, TXT, etc.) to your collection. RAG Studio will automatically process and index them.
-
-<Card title="API Reference" icon="book" href="/api-reference/documents/upload">
-  See detailed API documentation for document uploads
-</Card>
-
-### Step 3: Monitor Processing
-
-Document processing happens asynchronously. You can check the status of your uploads to ensure they're processed successfully.
-
-<Card title="API Reference" icon="book" href="/api-reference/tasks/status">
-  See detailed API documentation for task status monitoring
-</Card>
-
-### Step 4: Query Your Knowledge Base
-
-Ask questions about your documents using natural language. RAG Studio will find relevant information and provide contextual answers.
-
-<Card title="API Reference" icon="book" href="/api-reference/chat/query">
-  See detailed API documentation for RAG queries
-</Card>
+Sample Successful response
+```bash
+{
+  "output": {
+    "type": "audio",
+    "urls": [
+      "https://replicate.delivery/xezq/TugNv7N1iZL7AVfEVm2OrUoX8fuOMfwTgi5spd..."
+    ]
+  },
+  "cost": 0.0106,
+  "service": "replicate",
+  "status": "success",
+  "created_at": "2025-11-24T11:13:16.948584Z",
+  "generated_in": "2.5s"
+}
+```
 
 ## What's next?
 
-### For Web Interface Users
-
-<Card title="Try the Web Interface" icon="globe" href="https://rag.allcognix.com">
-  Access our intuitive web interface to manage collections, upload documents, and test queries.
+<Card title="Try the Playground" icon="globe" href="https://modelmarket.allcognix.com/playground">
+  Generate text, images, videos, audio, and code instantly.
 </Card>
-
-<Card title="Learn Core Concepts" icon="book" href="/concepts/overview">
-  Understand how collections, documents, and RAG queries work together.
-</Card>
-
-### For API Developers
-
-<Card title="API Reference" icon="code" href="/api-reference/authentication">
-  Learn about all available endpoints and their parameters.
-</Card>
-
-<Card title="Python SDK Example" icon="terminal" href="/examples/python-sdk">
-  See a complete Python SDK implementation with real-world examples.
-</Card>
-
-<Card title="Integration Guide" icon="plug" href="/integration/getting-started">
-  Complete integration guide for building applications with RAG Studio.
+<Card title="API Reference" icon="book" href="/api-reference/introduction">
+  Explore all endpoints and model options.
 </Card>
