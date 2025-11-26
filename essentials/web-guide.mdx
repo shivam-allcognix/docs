@@ -1,88 +1,108 @@
 ---
 title: 'Web Guide'
 description: '“Web Guide” section for Omni Model Market —'
-icon: 'text-size'
+icon: 'book'
 ---
 
-## Titles
 
-Best used for section headers.
+## Run Any Model Directly in the Browser
 
-```md
-## Titles
-```
+Omni Model Market web interface provides an intuitive way to experiment and use models without writing any code. Perfect for non-technical users, content seekers, and somebody who wants to quickly set up and test featured models capabilities.
 
-### Subtitles
+## Accessing the Web Interface
 
-Best used for subsection headers.
+Visit [modelmarket.allcognix.com](https://modelmarket.allcognix.com) to access our web interface. You'll need to create an account if you don't have one already.
 
-```md
-### Subtitles
-```
+## Key Features
 
-<Tip>
+### Intuitive Explore Section
 
-Each **title** and **subtitle** creates an anchor and also shows up on the table of contents on the right.
+**Explore the models**
+* Browse through the plenty of models on [modelmarket.allcognix.com/explore](https://modelmarket.allcognix.com/explore)
+* Select the best model for your fit and navigate to the playground.
+* We also have "featured" page for the popular models in the ongoing period, sorted with task and model type.
 
-</Tip>
+### Perfect Playground for you
+**Run the model**
+* Once you have selected the model, navigate yourself to the playground for the chosen model.
+* Fill the fields with inputs (one can ignore the default fields if don't want to tweak much) and hit the run button.
+* Wait few seconds/minutes for the model to run and see the result in the seperate section.
+* You will be getting the basic details like output content, cost and time elapsed for the model. One you can see in the below example picture:
+* //PLAYGROUND PICTURE//
 
-## Text formatting
+### Dashboard in detail
 
-We support most markdown formatting. Simply add `**`, `_`, or `~` around text to format it.
+**Navigate to Profile**
 
-| Style         | How to write it   | Result          |
-| ------------- | ----------------- | --------------- |
-| Bold          | `**bold**`        | **bold**        |
-| Italic        | `_italic_`        | _italic_        |
-| Strikethrough | `~strikethrough~` | ~strikethrough~ |
+* Go to your profile and dashboard section
+* You can see all the details of the recent tasks which you have created either by web playground or by API calls.
+* Track your progress status, cost, timestamp, input and output details. Refer the attached image of dashboard section:
+* //DASHBOARD PICTURE//
 
-You can combine these. For example, write `**_bold and italic_**` to get **_bold and italic_** text.
+### Visual + Downloadable Results
 
-You need to use HTML to write superscript and subscript text. That is, add `<sup>` or `<sub>` around your text.
+After running a model:
+* Images/videos/audio can be previewed directly
+* Outputs are shown instantly
+* All files can be downloaded in one click
+* API request & response JSON is visible for developers
 
-| Text Size   | How to write it          | Result                 |
-| ----------- | ------------------------ | ---------------------- |
-| Superscript | `<sup>superscript</sup>` | <sup>superscript</sup> |
-| Subscript   | `<sub>subscript</sub>`   | <sub>subscript</sub>   |
+**Query Features**
 
-## Linking to pages
+* Ask follow-up questions
+* Get summaries of specific topics
+* Find specific information quickly
 
-You can add a link by wrapping text in `[]()`. You would write `[link to google](https://google.com)` to [link to google](https://google.com).
+### Great for Prototyping
 
-Links to pages in your docs need to be root-relative. Basically, you should include the entire folder path. For example, `[link to text](/writing-content/text)` links to the page "Text" in our components section.
+With our intuitive playground you can quickly test:
+- Marketing content
+- TTS voices
+- Design variations
+- Small video clips
+- AI assistants or chat features
+- Before integrating further into your app or pipeline.
 
-Relative links like `[link to text](../text)` will open slower because we cannot optimize them as easily.
+**Cost Management**
 
-## Blockquotes
+* See real-time cost tracking
+* You can choose the amount to recharge as per your need.
+* Monitor your usage against low and zero balance limits
+* Get notifications for payment and balance limits.
 
-### Singleline
+### 🔑 API Key Management
 
-To create a blockquote, add a `>` in front of a paragraph.
+**Generate API Keys**
 
-> Dorothy followed her through many of the beautiful rooms in her castle.
+* Create API keys for programmatic access
+* Give keys descriptive names for easy identification
+* Keep API keys safe with you, since it is one time viewable.
 
-```md
-> Dorothy followed her through many of the beautiful rooms in her castle.
-```
+**Manage Access**
+* View all your API keys
+* Revoke keys when no longer needed
+* Monitor API key usage
 
-### Multiline
+### How to choose a model
 
-> Dorothy followed her through many of the beautiful rooms in her castle.
->
-> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
+<Columns cols={2}> <Card title="Match Capability to Use Case" icon="target"> Select a model that directly supports the output you need — text, image, audio, video, or code generation. Pick the one designed for your specific task. </Card> <Card title="Compare Pricing" icon="coins"> Review the per-unit pricing (tokens, images, audio duration, video seconds) to choose the most cost-efficient model for your workload. </Card> <Card title="Use the Playground" icon="flask"> Experiment with prompts, parameters, and model behavior in the Playground to evaluate quality, speed, and consistency before API integration. </Card> <Card title="Check API Parameters" icon="settings"> Ensure the model accepts all the input fields your application can provide, including text fields, file uploads, styles, and configuration parameters. </Card> <Card title="Check Model Status" icon="shield-check"> Prefer stable, actively maintained, or official provider models for reliable output and predictable performance. </Card> </Columns>
 
-```md
-> Dorothy followed her through many of the beautiful rooms in her castle.
->
-> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
-```
+### Getting Help
 
-### LaTeX
+* Check the [API Reference](/api-reference/authentication) for technical details
+* Review [Core Concepts](/concepts/overview) for understanding how RAG works
+* Contact support if you need additional assistance
 
-Mintlify supports [LaTeX](https://www.latex-project.org) through the Latex component.
+## Next Steps
 
-<Latex>8 x (vk x H1 - H2) = (0,1)</Latex>
+<Card title="Try the Web Interface" icon="globe" href="https://rag.allcognix.com">
+  Access our web interface and start building your knowledge base.
+</Card>
 
-```md
-<Latex>8 x (vk x H1 - H2) = (0,1)</Latex>
-```
+<Card title="Learn Core Concepts" icon="book" href="/concepts/overview">
+  Understand how collections, documents, and RAG queries work together.
+</Card>
+
+<Card title="API Integration" icon="code" href="/integration/getting-started">
+  Learn how to integrate RAG Studio into your applications.
+</Card>
