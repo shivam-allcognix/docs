@@ -1,80 +1,147 @@
----
-title: "QuickStart"
-description: "Start building awesome documentation in minutes"
----
+# Quickstart
 
-## Get started in three steps
+> Get started with RAG Studio in 5 minutes
 
-Get your documentation site running locally and make your first customization.
+## Choose your path
 
-### Step 1: Set up your local environment
+RAG Studio offers two ways to get started:
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+<Columns cols={2}>
+  <Card title="Web Interface" icon="globe" href="/integration/web-ui">
+    Use our intuitive web interface to manage collections, upload documents, and test queries.
+  </Card>
 
-### Step 2: Deploy your changes
+  <Card title="API Integration" icon="code" href="/api-reference/authentication">
+    Integrate RAG Studio into your applications using our REST APIs.
+  </Card>
+</Columns>
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+## Web Interface
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+The easiest way to get started with RAG Studio is through our web interface.
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+<Steps>
+  <Step title="Create an Account">
+    Visit [rag.allcognix.com](https://rag.allcognix.com) and create your account. You'll get access to our intuitive web interface.
+  </Step>
 
-### Step 3: Go live
+  <Step title="Create Your First Collection">
+    Click "Create Collection" and give it a name like "My Documents". Collections help organize your knowledge base.
+  </Step>
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+  <Step title="Upload Documents">
+    Drag and drop your documents (PDF, DOCX, TXT) into the upload area. RAG Studio will automatically process them.
+  </Step>
 
-## Next steps
+  <Step title="Test Your Knowledge Base">
+    Use the chat interface to ask questions about your documents. Get instant, accurate answers with source citations.
+  </Step>
+</Steps>
 
-Now that you have your docs running, explore these key features:
+### Web Interface Features
+
+* **Visual Document Management**: Upload, organize, and manage documents with an intuitive interface
+* **Real-time Chat**: Test your knowledge base with instant Q\&A
+* **Collection Organization**: Group related documents for better context
+* **Usage Analytics**: Track your queries and costs in real-time
+* **API Key Management**: Generate and manage API keys for external integrations
+
+## API Integration
+
+For developers who want to integrate RAG Studio into their applications or AI agents.
+
+<Steps>
+  <Step title="Get Your API Key">
+    Visit our [web interface](https://rag.allcognix.com) to create an account and generate your API key for programmatic access.
+  </Step>
+
+  <Step title="Create a Collection">
+    Use our API to create a collection and organize your documents programmatically.
+  </Step>
+
+  <Step title="Upload Documents">
+    Upload documents via API and monitor processing status.
+  </Step>
+
+  <Step title="Integrate RAG Queries">
+    Query your knowledge base from your applications and get intelligent responses.
+  </Step>
+</Steps>
+
+### Key Concepts for API Integration
+
+**Collections**: Organize your documents into logical groups. Only one collection can be active at a time for uploads and queries.
+
+**Document Processing**: Uploads are processed asynchronously. You'll receive a task ID to monitor progress.
+
+**RAG Queries**: Ask natural language questions about your documents. RAG Studio finds relevant content and provides contextual answers.
+
+**Cost Tracking**: Monitor your usage costs for embeddings and queries to stay within limits.
 
 <CardGroup cols={2}>
+  <Card title="Complete API Reference" icon="book" href="/api-reference/introduction">
+    Browse all available endpoints and detailed documentation
+  </Card>
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="Comprehensive Examples" icon="code" href="/examples/comprehensive-api-usage">
+    See complete integration examples with error handling
+  </Card>
 </CardGroup>
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+### Step 1: Create a Collection
+
+Collections help you organize your documents. Think of them as folders that group related content together.
+
+<Card title="API Reference" icon="book" href="/api-reference/collections/create">
+  See detailed API documentation for creating collections
+</Card>
+
+### Step 2: Upload Documents
+
+Upload your documents (PDF, DOCX, TXT, etc.) to your collection. RAG Studio will automatically process and index them.
+
+<Card title="API Reference" icon="book" href="/api-reference/documents/upload">
+  See detailed API documentation for document uploads
+</Card>
+
+### Step 3: Monitor Processing
+
+Document processing happens asynchronously. You can check the status of your uploads to ensure they're processed successfully.
+
+<Card title="API Reference" icon="book" href="/api-reference/tasks/status">
+  See detailed API documentation for task status monitoring
+</Card>
+
+### Step 4: Query Your Knowledge Base
+
+Ask questions about your documents using natural language. RAG Studio will find relevant information and provide contextual answers.
+
+<Card title="API Reference" icon="book" href="/api-reference/chat/query">
+  See detailed API documentation for RAG queries
+</Card>
+
+## What's next?
+
+### For Web Interface Users
+
+<Card title="Try the Web Interface" icon="globe" href="https://rag.allcognix.com">
+  Access our intuitive web interface to manage collections, upload documents, and test queries.
+</Card>
+
+<Card title="Learn Core Concepts" icon="book" href="/concepts/overview">
+  Understand how collections, documents, and RAG queries work together.
+</Card>
+
+### For API Developers
+
+<Card title="API Reference" icon="code" href="/api-reference/authentication">
+  Learn about all available endpoints and their parameters.
+</Card>
+
+<Card title="Python SDK Example" icon="terminal" href="/examples/python-sdk">
+  See a complete Python SDK implementation with real-world examples.
+</Card>
+
+<Card title="Integration Guide" icon="plug" href="/integration/getting-started">
+  Complete integration guide for building applications with RAG Studio.
+</Card>
