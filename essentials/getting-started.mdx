@@ -75,7 +75,7 @@ You can explore the full list of model on the explore page of the website: [mode
 
 ## Step 3: Call the API
 
-You can run any model on Omni Model Market from your Python code. Here’s an example that runs minimax/speech-02-hd to generate an audio from the text:
+1. You can run any model on Omni Model Market from your Python code. Here’s an example that runs minimax/speech-02-hd to generate an audio from the text:
 
 ```python  theme={null}
 def generate():
@@ -95,6 +95,29 @@ def generate():
     else:
         raise Exception(f"Failed to create collection: {response.json()['detail']}")
 ```
+2. For streaming method supporting models, you can call like this:
+```python  theme={null}
+def stream():
+    url = BASE_URL + ENDPOINT
+    payload = { 
+                "model": "openai/gpt-5",
+                "prompt": "Tell me the story of the green goblin in 50 words.",
+                "messages": [],
+                "verbosity": "medium",
+                "image_input": [],
+                "reasoning_effort": "minimal"
+                }
+    headers = {
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    print("Streaming response...\n")
+    with requests.post(url, json=payload, headers=headers, stream=True) as r:
+        for chunk in r.iter_lines():
+            if chunk:
+                print(chunk.decode(), end="", flush=True)
+```  
 
 ## Step 4: Handling output
 
@@ -124,7 +147,12 @@ with open("test.mp3", "wb") as f:
   f.write(file_url.content)
   print("Saved: test.mp3")
 ```
+But some models can generate output in streaming fashion, so you need to process that output as per your use case:
+```bash
+Streaming response...
 
+The Green Goblin, Norman Osborn, brilliant industrialist corrupted by a risky serum, gains strength and madness. Donning a goblin mask, glider, and pumpkin bombs, he becomes Spider-Man’s nemesis. He discovers Peter Parker’s identity, kills Gwen Stacy, dies, returns repeatedly, embodying obsession, tragedy, and the peril of unchecked ambition.<<END>>{"type": "final", "provider_output": {"cost": 0.0005, "service": "replicate", "created_at": "2025-12-16T05:24:11.476542Z", "generated_in": "2.62s"}}
+```
 ## Step 5: Monitor and Optimize
 To keep your usage efficient and cost-effective, follow these best practices:
 
@@ -135,7 +163,7 @@ To keep your usage efficient and cost-effective, follow these best practices:
 ## Complete Integration Example
 
 Here's a complete example that demonstrates all integration steps:
-
+a) For generation:
 ```python  theme={null}
 import os
 import requests
@@ -144,7 +172,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 API_KEY = os.getenv("MODEL_MARKET_API_KEY")
-URL = "https://modelmarket.allcognix.com/v1/mmk-generate"
+URL = "https://modelmarket.allcognix.com/v1/mmk-generate" # For generate
+# URL = "https://modelmarket.allcognix.com/v1/mmk-generate" # For stream
 
 headers = {
 "Authorization": f"Bearer {API_KEY}",
@@ -174,6 +203,38 @@ def download_file(url, filename):
 if name == "main":
 result = generate_audio()
 print("Full result:", result)
+```
+
+b) For streaming models:
+```python  theme={null}
+import os, json
+import requests
+from dotenv import load_dotenv
+# Load environment variables
+load_dotenv()
+API_KEY = os.getenv("MODEL_MARKET_API_KEY")
+URL = "https://modelmarket.allcognix.com/v1/mmk-chat" # For chat
+
+def main():
+    url = BASE_URL + ENDPOINT
+    payload = { 
+                "model": "openai/gpt-5",
+                "prompt": "Tell me the story of the green goblin in 50 words.",
+                "messages": [],
+                "verbosity": "medium",
+                "image_input": [],
+                "reasoning_effort": "minimal"
+                }
+    headers = {
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    print("Streaming response...\n")
+    with requests.post(url, json=payload, headers=headers, stream=True) as r:
+        for chunk in r.iter_lines():
+            if chunk:
+                print(chunk.decode(), end="", flush=True)
 ```
 
 ## Next Steps
