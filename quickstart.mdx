@@ -6,11 +6,11 @@ Get started with Omni Model Market in minutes
 Omni Model Market offers two simple ways to begin:
 
 <Columns cols={2}>
-  <Card title="Web Interface" icon="globe" href="/integration/web-ui">
+  <Card title="Web Interface" icon="globe">
     Use our unified playground to test text, image, video, audio, and code models instantly.
   </Card>
 
-  <Card title="API Integration" icon="code" href="/api-reference/authentication">
+  <Card title="API Integration" icon="code">
     Integrate AI models into your applications using our REST API.
   </Card>
 </Columns>
@@ -52,7 +52,7 @@ For all the developers who want a fully programmable flows to utilise most of it
   </Step>
 
   <Step title="Send Your First API Request">
-    Use our unified generation endpoint to run any model.
+    Use our generation or streaming endpoint to run a model.
   </Step>
 
   <Step title="Handle Responses">
@@ -68,8 +68,8 @@ For all the developers who want a fully programmable flows to utilise most of it
 
 **Models List**: Choose the best suitable model as per your requirement and give it a try in the web playground to assess the output as per your input.
 
-**Unified Models API**  
-One endpoint for all models: text, image, video, audio, and code.
+**Models API**  
+Endpoint like generate and chat for these models: text, image, video, audio, and code.
 
 **Cost Tracking**  
 Every request returns exact credit usage. Notification system will inform automatically for low balance remainings.
@@ -81,7 +81,7 @@ Every request returns exact credit usage. Notification system will inform automa
     Browse all available endpoints and detailed documentation
   </Card>
 
-  <Card title="Comprehensive Examples" icon="code" href="/examples/comprehensive-api-usage">
+  <Card title="Comprehensive Examples" icon="code" href="essentials/examples">
     See complete integration examples with error handling
   </Card>
 </CardGroup>
@@ -116,6 +116,31 @@ Sample Successful response
   "created_at": "2025-11-24T11:13:16.948584Z",
   "generated_in": "2.5s"
 }
+```
+POST https://modelmarket.allcognix.com/v1/mmk-chat
+```
+curl -X POST "https://modelmarket.allcognix.com/v1/mmk-chat" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "model": "openai/gpt-5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Tell me the story of the green goblin in 50 words."
+          }
+        ],
+        "verbosity": "medium",
+        "reasoning_effort": "minimal",
+        "stream": true
+      }'
+```
+
+Sample succesful response:
+```
+Streaming response...
+
+The Green Goblin, Norman Osborn, brilliant industrialist corrupted by a risky serum, gains strength and madness. Donning a goblin mask, glider, and pumpkin bombs, he becomes Spider-Man’s nemesis. He discovers Peter Parker’s identity, kills Gwen Stacy, dies, returns repeatedly, embodying obsession, tragedy, and the peril of unchecked ambition.<<END>>{"type": "final", "provider_output": {"cost": 0.0005, "service": "replicate", "created_at": "2025-12-16T05:24:11.476542Z", "generated_in": "2.62s"}}
 ```
 
 ## What's next?
